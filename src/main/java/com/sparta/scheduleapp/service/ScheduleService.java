@@ -18,7 +18,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public ScheduleResponse save(ScheduleRequest requestDto){
+    public ScheduleResponse save(ScheduleRequest requestDto) {
         Schedule savedschedule = scheduleRepository.save(
                 new Schedule(
                         requestDto.getTitle(),
@@ -31,9 +31,9 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponse> getSchedules(String manager){
+    public List<ScheduleResponse> getSchedules(String manager) {
         List<Schedule> schedules;
-        if(manager==null || manager.isEmpty()){
+        if (manager == null || manager.isEmpty()) {
             schedules = scheduleRepository.findAllByOrderByModifiedAtDesc();
         } else {
             schedules = scheduleRepository.findAllByManagerOrderByModifiedAtDesc(manager);
@@ -47,7 +47,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleResponse getScheduleById(Long id){
+    public ScheduleResponse getScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 ID의 일정이 없습니다.")
         );
@@ -55,11 +55,11 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleResponse updateSchedule(Long id, ScheduleRequest requestDto){
+    public ScheduleResponse updateSchedule(Long id, ScheduleRequest requestDto) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당하는 id의 일정이 없습니다.")
         );
-        if(!schedule.getPassword().equals(requestDto.getPassword())){
+        if (!schedule.getPassword().equals(requestDto.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
@@ -67,4 +67,20 @@ public class ScheduleService {
 
         return new ScheduleResponse(schedule);
     }
+
+    @Transactional
+    public void deleteSchedule(Long id, String password) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 ID의 일정이 없습니다.")
+        );
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        scheduleRepository.delete(schedule);
+    }
+
 }
+
+
+
