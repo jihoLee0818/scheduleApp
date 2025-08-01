@@ -26,4 +26,10 @@ public class ScheduleController {
         List<ScheduleResponse> responseList = scheduleService.getSchedules(manager);
         return ResponseEntity.ok(responseList);
     }
+
+    @GetMapping("/api/schedules/{id}")
+    public ResponseEntity<ScheduleResponse> getSchedule(@PathVariable Long id) {
+        ScheduleResponse response = scheduleService.getScheduleById(id);
+        return ResponseEntity.ok(response);
+    }
 }

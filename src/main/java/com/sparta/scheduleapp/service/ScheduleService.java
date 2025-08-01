@@ -45,4 +45,12 @@ public class ScheduleService {
         }
         return responseList;
     }
+
+    @Transactional(readOnly = true)
+    public ScheduleResponse getScheduleById(Long id){
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 ID의 일정이 없습니다.")
+        );
+        return new ScheduleResponse(schedule);
+    }
 }
