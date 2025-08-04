@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,10 +39,8 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/api/schedules/{id}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long id, @RequestBody Map<String, String> requestbody) {
-    String password = requestbody.get("password");
+    public void deleteSchedule(@PathVariable Long id, @RequestParam String password) {
     scheduleService.deleteSchedule(id, password);
-    return ResponseEntity.ok("일정이 삭제되었습니다.");
     }
 
 
