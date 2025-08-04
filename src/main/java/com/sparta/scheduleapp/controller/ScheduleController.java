@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,13 +38,4 @@ public class ScheduleController {
         ScheduleResponse response = scheduleService.updateSchedule(id, requestDto);
         return ResponseEntity.ok(response);
     }
-
-    @DeleteMapping("/api/schedules/{id}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long id, @RequestBody Map<String, String> requestbody) {
-    String password = requestbody.get("password");
-    scheduleService.deleteSchedule(id, password);
-    return ResponseEntity.ok("일정이 삭제되었습니다.");
-    }
-
-
 }
